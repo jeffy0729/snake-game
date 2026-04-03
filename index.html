@@ -45,6 +45,46 @@
             color: #aaa;
             font-size: 14px;
         }
+        
+        /* 手机控制按钮 */
+        #mobile-controls {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            #mobile-controls {
+                display: block;
+            }
+        }
+        
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.1s;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        .control-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .control-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        
         #start-btn {
             position: absolute;
             top: 50%;
@@ -107,6 +147,18 @@
         </div>
     </div>
     <div id="instructions">使用 ↑↓←→ 方向键 或 WASD 控制蛇的移动</div>
+    
+    <!-- 手机控制按钮 -->
+    <div id="mobile-controls">
+        <div class="control-row">
+            <button class="control-btn" onclick="changeDirection(0, -1)">⬆️</button>
+        </div>
+        <div class="control-row">
+            <button class="control-btn" onclick="changeDirection(-1, 0)">⬅️</button>
+            <button class="control-btn" onclick="changeDirection(0, 1)">⬇️</button>
+            <button class="control-btn" onclick="changeDirection(1, 0)">➡️</button>
+        </div>
+    </div>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
@@ -285,6 +337,16 @@
         
         // 手机触摸滑动控制
         let touchStartX = 0;
+        
+        // 手机按钮控制函数
+        function changeDirection(x, y) {
+            if (!isRunning) return;
+            if (direction.x !== -x && direction.y !== -y) {
+                nextDirection = { x, y };
+            }
+        }
+        
+        let touchStartY = 0;
         let touchStartY = 0;
         
         canvas.addEventListener('touchstart', (e) => {
